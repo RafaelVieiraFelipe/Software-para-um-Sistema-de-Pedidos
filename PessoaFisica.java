@@ -1,16 +1,16 @@
 public class PessoaFisica extends Pessoa {
-    private int cpf;
+    private String cpf;
 
-    public int getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(int cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
-    public PessoaFisica(String nome, String email, int cpf) {
-        super(nome, email);
+    public PessoaFisica(String nome, String email, int id, String cpf) {
+        super(nome, email, id);
         this.cpf = cpf;
     }
     

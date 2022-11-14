@@ -1,4 +1,13 @@
 public class Pessoa {
+    private int id;
+    
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+
     private String nome;
     private String email;
 
@@ -15,8 +24,14 @@ public class Pessoa {
         this.email = email;
     }
 
-    public Pessoa(String nome, String email){
+    public Pessoa(String nome, String email, int id){
         this.nome = nome;
         this.email = email;
+        this.id = id;
+    }
+
+    public void imprimir() {
+        System.out.println("nome: " + nome);
+        System.out.println("e-mail: " + email);
     }
 }

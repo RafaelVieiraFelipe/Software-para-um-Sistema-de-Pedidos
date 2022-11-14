@@ -1,13 +1,13 @@
 public class Produto {
-    private String nomeProduto;
+    private String nome;
     private String descrisao;
     private double preco;
 
-    public String getNomeProduto() {
-        return nomeProduto;
+    public String getNome() {
+        return nome;
     }
-    public void setNomeProduto(String nomeProduto) {
-        this.nomeProduto = nomeProduto;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
     public String getDescrisao() {
         return descrisao;
@@ -22,9 +22,13 @@ public class Produto {
         this.preco = preco;
     }
 
-    public Produto(String nomeProdudo, String descrisao, double preco){
-        this.nomeProduto = nomeProduto;
+    public Produto(String nome, String descrisao, double preco){
+        this.nome = nome;
         this.descrisao = descrisao;
         this.preco = preco;
+    }
+
+    public void imprimir(){
+        System.out.println("Nome produto: " + nome + "descrição: " + descrisao + "preço: " + preco);
     }
 }
