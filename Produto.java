@@ -29,6 +29,6 @@ public class Produto {
     }
 
     public void imprimir(){
-        System.out.println("Nome produto: " + nome + "descrição: " + descrisao + "preço: " + preco);
+        System.out.println("Nome produto: " + nome + "; descrição: " + descrisao + "; preço: " + preco);
     }
 }

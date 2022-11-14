@@ -9,7 +9,7 @@ class App{
 
         String nome, email, documento, descricao;
         double preco;
-        int op, id, idPessoa=0;
+        int op, id=0, idPessoa=0;
 
         ArrayList <Pessoa> pessoas = new ArrayList<Pessoa>();
         ArrayList <PessoaFisica> pf = new ArrayList<PessoaFisica>();
@@ -39,10 +39,10 @@ class App{
                     email = entradaString.nextLine();
                     System.out.println("[1] - Pessoa física\n[2] - Pessoa jurídica\n:");
                     op = entradaNum.nextInt();
+                    idPessoa++;
                     if(op == 1){
                         System.out.println("Informe o CPF");
                         documento = entradaString.nextLine();
-                        idPessoa++;
                         pf.add(new PessoaFisica(nome, email, idPessoa, documento));
                         pessoas.addAll(pf);
                     } else if(op == 2){
@@ -75,8 +75,6 @@ class App{
                     nome = entradaString.nextLine();
                     System.out.println("Digite o e-mail: ");
                     email = entradaString.nextLine();
-                    System.out.println("Digito o ID do pedido: ");
-                    id = entradaNum.nextInt();
                     System.out.println("Produtos: ");
                     System.out.println("Nome:\tDescrição:\tPreço:");
                     do{
@@ -92,6 +90,7 @@ class App{
                             }
                         }
                         System.out.println("Continuar comprando? [1] - Sim [2] - Não");
+                        op = entradaNum.nextInt();
                     }while(op == 1);
                     System.out.println("Digite a data do pedido: dd/mm/yyyy");
                     String dataRecebida = entradaString.nextLine();
@@ -101,18 +100,38 @@ class App{
                         int auxId;
                         for(int i=0; i<pessoas.size(); i++){
                             if(nome.equals(pessoas.get(i).getNome())){
+                                id++;
                                 auxId = pessoas.get(i).getId();
-                                pedidos.add(new Pedido(nome, email, auxId, id, produtos, (java.sql.Date) dt));
-                            } else{
-                                System.out.println("Pessoa não cadastrada");
+                                java.sql.Date d = new java.sql.Date (dt.getTime());
+                                pedidos.add(new Pedido(nome, email, auxId, id, produtos, d));
+                                System.out.println("ID do pedido: " + id);
                             }
                         }
                     }
                     catch (Exception ex) {
                         ex.printStackTrace();
+                        System.out.println("Pessoa não cadastrada");
                     }
                     break;
                 case 5:
+                    System.out.println("Digite o ID do pedido: ");
+                    int auxId = entradaNum.nextInt();
+                    for(int i=0; i<pedidos.size(); i++){
+                        if(pedidos.get(i).getId() == auxId){
+                            for(int j=0; j<pf.size(); j++){
+                                if(pedidos.get(i).getId() == (pf.get(j).getId())){
+                                    System.out.println("Pessoa física");
+                                    pedidos.get(i).imprimir();
+                                }
+                            }
+                            for(int j=0; j<pj.size(); j++){
+                                if(pedidos.get(i).getId() == (pj.get(j).getId())){
+                                    System.out.println("Pessoa jurídica");
+                                    pedidos.get(i).imprimir();
+                                }
+                            }
+                        }
+                    }
                     break;
                 case 6:
                     break;
