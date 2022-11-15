@@ -18,8 +18,6 @@ class App{
         ArrayList <Produto> produtos = new ArrayList<Produto>();
         ArrayList <Pedido> pedidos = new ArrayList<Pedido>();
 
-        pf.add(new PessoaFisica("Rafael", "rafael.vf04@gmail.com", 210090, "123456789"));
-        pessoas.add(new Pessoa("Rafael", "rafael.vf04@gamil.com", 210090));
         fornecedores.add(new Fornecedor("Padrão", "44. 333. 11/22221-01"));
 
         do{
@@ -47,12 +45,12 @@ class App{
                         System.out.println("Informe o CPF");
                         documento = entradaString.nextLine();
                         pf.add(new PessoaFisica(nome, email, idPessoa, documento));
-                        pessoas.addAll(pf);
+                        pessoas.add(new Pessoa(nome, email, idPessoa));
                     } else if(op == 2){
                         System.out.println("Informe o CNPJ: ");
                         documento = entradaString.nextLine();
                         pj.add(new PessoaJuridica(nome, email, idPessoa, documento));
-                        pessoas.addAll(pj);
+                        pessoas.add(new Pessoa(nome, email, idPessoa));
                     } else{
                         System.out.println("Opção invalida, apagando registro.");
                     }
@@ -89,6 +87,7 @@ class App{
                         for(int i=0; i<produtos.size(); i++){
                             if(nomeProduto.equals(produtos.get(i).getNome().toLowerCase())){
                                 produtoPedido.add(produtos.get(i));
+                                break;
                             }
                         }
                         System.out.println("Continuar comprando? [1] - Sim [2] - Não");
@@ -156,18 +155,7 @@ class App{
                         case 1:
                             for(int i=0; i<pessoas.size(); i++){
                                 pessoas.get(i).imprimir();
-                                for(int j=0; j<pf.size(); j++){
-                                    if(pessoas.get(i).getId() == pf.get(j).getId()){
-                                        System.out.println("Pessoa física");
-                                        System.out.println("CPF: " + pf.get(j).getCpf());
-                                    }
-                                }
-                                for(int j=0; j<pj.size(); j++){
-                                    if(pessoas.get(i).getId() == pj.get(j).getId()){
-                                        System.out.println("Pessoa jurídica");
-                                        System.out.println("CNPJ: " + pj.get(j).getCnpj());
-                                    }
-                                }
+                                verificarTipoPessoa(pessoas.get(i), pf, pj);
                                 System.out.println();
                             }
                             break;
@@ -183,17 +171,8 @@ class App{
                             break;
                         case 4:
                             for(int i=0; i<pedidos.size(); i++){
+                                verificarTipoPessoaPedido(pedidos.get(i), pf, pj);
                                 pedidos.get(i).imprimir();
-                                for(int j=0; j<pf.size(); j++){
-                                    if(pedidos.get(i).getIdPessoa() == pf.get(j).getId()){
-                                        System.out.println("CPF: " + pf.get(j).getCpf() + " Nome: " + pf.get(j).getNome());
-                                    }
-                                }
-                                for(int j=0; j<pj.size(); j++){
-                                    if(pessoas.get(i).getId() == pj.get(j).getId()){
-                                        System.out.println("CNPJ: " + pj.get(j).getCnpj() + " Nome: " + pj.get(j).getNome()) ;
-                                     }
-                                }
                                 if(pedidos.get(i).isPedidoFechado() == true){
                                     System.out.println("Pedido fechado");;
                                 }
@@ -220,7 +199,8 @@ class App{
                                         System.out.println("Sequencia invalida");
                                     }
                                     else{
-                                        if(dt.before(pedidos.get(i).getData()) && dt2.after(pedidos.get(i).getData())){
+                                        if(dt.before(pedidos.get(i).getData()) || pedidos.get(i).getData() == dt && dt2.after(pedidos.get(i).getData()) || pedidos.get(i).getData() == dt2){
+                                            verificarTipoPessoaPedido(pedidos.get(i), pf, pj);
                                             pedidos.get(i).imprimir();
                                         }
                                     }
@@ -234,6 +214,7 @@ class App{
                             auxId = entradaNum.nextInt();
                             for(int i=0; i<pedidos.size(); i++){
                                 if(pedidos.get(i).getIdPedido() == auxId){
+                                    verificarTipoPessoaPedido(pedidos.get(i), pf, pj);
                                     pedidos.get(i).imprimir();
                                 }
                             }
@@ -242,6 +223,7 @@ class App{
                             System.out.println("Pedido pagos: ");
                             for(int i=0; i<pedidos.size(); i++){
                                 if(pedidos.get(i).isPedidoFechado() == true){
+                                    verificarTipoPessoaPedido(pedidos.get(i), pf, pj);
                                     pedidos.get(i).imprimir();
                                 }
                             }
@@ -279,5 +261,35 @@ class App{
                     break;
             }
         }while(op != 7);
+    }
+
+    public static void verificarTipoPessoaPedido(Pedido pedidos, ArrayList <PessoaFisica> pf, ArrayList <PessoaJuridica> pj){
+        for(int j=0; j<pf.size(); j++){
+            if(pedidos.getIdPessoa() == (pf.get(j).getId())){
+                System.out.println("CPF: " + pf.get(j).getCpf() + " Nome: " + pf.get(j).getNome());
+                break;
+            }
+        }
+        for(int j=0; j<pj.size(); j++){
+            if(pedidos.getIdPessoa() == (pj.get(j).getId())){
+                System.out.println("CNPJ: " + pj.get(j).getCnpj() + " Nome: " + pj.get(j).getNome());
+                break;
+            }
+        }
+    }
+
+    public static void verificarTipoPessoa(Pessoa pessoas, ArrayList <PessoaFisica> pf, ArrayList <PessoaJuridica> pj){
+        for(int j=0; j<pf.size(); j++){
+            if(pessoas.getId() == (pf.get(j).getId())){
+                System.out.println("CPF: " + pf.get(j).getCpf() + " Nome: " + pf.get(j).getNome());
+                break;
+            }
+        }
+        for(int j=0; j<pj.size(); j++){
+            if(pessoas.getId() == (pj.get(j).getId())){
+                System.out.println("CNPJ: " + pj.get(j).getCnpj() + " Nome: " + pj.get(j).getNome());
+                break;
+            }
+        }
     }
 }

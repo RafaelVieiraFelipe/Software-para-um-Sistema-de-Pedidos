@@ -23,7 +23,7 @@ public class PessoaFisica extends Pessoa {
         int parcela = entrada.nextInt();
         if(parcela>=1 && parcela<=5){
             double valorFinal = pedido.getValorTotal()/parcela;
-            System.out.println("O pedido foi parcelado em " + parcela + "vezes de " + valorFinal);
+            System.out.printf("O pedido foi parcelado em " + parcela + " vezes de  %.2f\n", valorFinal);
             System.out.println("Finalizar compra? [1] - Sim [2] - Não");
             int op = entrada.nextInt();
             if(op==1){
