@@ -19,4 +19,9 @@ public class Fornecedor {
         this.nomeFornecedor = nomeFornecedor;
         this.cnpj = cnpj;
     }
+
+    public void imprimir(){
+        System.out.println("Nome: " + nomeFornecedor);
+        System.out.println("CNPJ: " + cnpj);
+    }
 }
